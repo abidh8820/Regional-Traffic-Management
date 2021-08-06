@@ -1,15 +1,16 @@
-#include "Person.h"
 #include <bits/stdc++.h>
+#include <fstream>
+#include "Person.h"
 
 using namespace std;
-static int p_id;
-
 class Passenger : public Person {
-    int passenger_id;
-    string source , destination;
-    public:
-    int get_id(){
-        return ++p_id;
+//    string source, destination;
+
+   public:
+    void write_info(string filename) {  // file naming format : '2' + id.txt
+        Person::write_to_file(filename);
+        fstream myfile;
+        myfile.open(filename, ios::out | ios::app);
+
     }
-    
-}
+};

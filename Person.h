@@ -1,10 +1,11 @@
 #include "bits/stdc++.h"
+#include <fstream>
 using namespace std;
 
-static int userID;
 
 class Person {
-    int user_id;
+    protected:
+    string user_id;
     string name;
     string email;
     string phone;
@@ -14,8 +15,6 @@ class Person {
 
    public:
     Person() {}
-
-    int gen_user_id() { return ++userID; }
 
     string check_pass() { // takes password, denies if does not match
     abar:
@@ -30,6 +29,12 @@ class Person {
         }
         return s1;
     }
+    string getusername(){
+        return user_id;
+    }
+    string getpass(){
+        return password;
+    }
 
     void get_info() {  /// generic informationfo
         cout << "Enter Your Name: " << endl;
@@ -42,7 +47,28 @@ class Person {
         cin >> adress;
         cout << "Enter your phone number: " << endl;
         cin >> phone;
-        user_id = gen_user_id();
+        cout<<"Enter your NID: "<<endl;
+        cin >> user_id;
         password = check_pass();
     }
+
+//        string name;
+//    string email;
+//    string phone;
+//    string adress;
+//    string profession;
+//
+    void write_to_file(string filename){
+        cout<<"Writing in file"<<endl;
+        cout<<filename<<endl;
+        fstream myfile;
+        myfile.open(filename,std::ios::out);
+        myfile<<name+"\n";
+        myfile<<email+"\n";
+        myfile<<phone+"\n";
+        myfile<<adress+"\n";
+        myfile<<profession+"\n";
+        myfile.close();
+    }
+
 };
