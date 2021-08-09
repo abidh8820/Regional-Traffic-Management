@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
-
-#include "Passenger.h"
-//#include "Driver.h"
+#include <string>
+#include "Person.h"
 
 using namespace std;
 
@@ -33,6 +32,7 @@ int main() {
             string username = '2' + passenger.getusername();
             string password = passenger.getpass();
             string filename = username + ".txt";
+            
         }
 
     }
