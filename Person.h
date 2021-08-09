@@ -1,7 +1,59 @@
 #include "bits/stdc++.h"
+#include <fstream>
 using namespace std;
 
 static int l_id;
+
+inline bool checkuser(string username) {  // checks if file "username" is taken
+    ifstream PersonFilePointer;
+    PersonFilePointer.open(username.c_str());
+    return !PersonFilePointer.is_open();
+}
+
+pair<bool, string> login_possible(){
+    while(true)   {
+        cout<<"Enter your username: ";
+        cout.flush();
+        string s;
+        cin >> s;
+        bool valid = checkuser(s);
+        if(!valid){
+            cout<<"Ener your pass: ";
+            cout.flush();
+
+            string givenpass;
+            cin >> givenpass;
+
+            ifstream myfile;
+            myfile.open(s);
+
+            string pass;
+            getline(myfile,pass);
+            cout<<pass<<endl;
+
+            if(pass==givenpass){
+                cout<<"Login successful."<<endl;
+                return make_pair(1,s);
+            }
+            cout<<"Password does not match"<<endl;
+            cout<<"1.Try again.\n2.Exit"<<endl;
+            int option;
+            cin >> option;
+
+            if(option) continue;
+            return make_pair(0,"");
+        }
+        else{
+            cout<<"Username not found."<<endl;
+            cout<<"1.Try again.\n2.Exit"<<endl;
+            int option;
+            cin >> option;
+
+            if(option) continue;
+            return make_pair(0,"");
+        }
+    }
+}
 
 class Person {
    protected:
@@ -29,10 +81,24 @@ class Person {
         }
         return s1;
     }
-    string getusername() { return user_id; }
+
+    string set_username() {
+        while (true) {
+            cout << "Enter username: " << endl;
+            string s;
+            cin >> s;
+            if (checkuser(s)) return s;
+            cout << "Usernamae already taken." << endl;
+        }
+    }
+
+
+    string getusername(){
+        return  user_id;
+    }
     string getpass() { return password; }
 
-    void get_info() {  /// generic informationfo
+    void set_info() {  /// generic informationfo
         cout << "Enter Your Name: " << endl;
         cin >> name;
         cout << "Enter your email: " << endl;
@@ -43,22 +109,16 @@ class Person {
         cin >> adress;
         cout << "Enter your phone number: " << endl;
         cin >> phone;
-        cout << "Enter your NID: " << endl;
-        cin >> user_id;
+        user_id = set_username();
         password = check_pass();
     }
 
-    //        string name;
-    //    string email;
-    //    string phone;
-    //    string adress;
-    //    string profession;
-    //
-    void write_to_file(string filename) {
+    void write_to_file(string filename) { // writes ll personal info
         cout << "Writing in file" << endl;
         cout << filename << endl;
         fstream myfile;
         myfile.open(filename, std::ios::out);
+        myfile << password + "\n";
         myfile << name + "\n";
         myfile << email + "\n";
         myfile << phone + "\n";
@@ -67,8 +127,6 @@ class Person {
         myfile.close();
     }
 };
-
-
 
 class Passenger : public Person {
     //    string source, destination;
@@ -87,12 +145,24 @@ class Driver : public Person {
     string date_of_expiration;
 
    public:
-    int get_id() { return ++l_id; }
-    void add_info(string dor, string doe) {
-        date_of_expiration = doe;
-        date_of_registraion = dor;
-        lincense_id = get_id();
+
+    void set_driver_info(){
+        cout<<"Enter date of Registration: ";
+        cout.flush();
+        cin >> date_of_registraion;
+        cout<<"Enter date of Expiration: ";
+        cout.flush();
+        cin >> date_of_expiration;
     }
+
+    void driver_write_to_file() {   //writes  only dates to file
+        fstream myfile;
+        myfile.open(this->getusername(), ios::out | ios::app);
+        myfile<<date_of_registraion+"\n";
+        myfile<<date_of_expiration+"\n";
+        myfile.close();
+    }
+
     void get_info_driver() {
         cout << "Date of Registration: " << date_of_registraion << endl;
         cout << "Date of Expiration: " << date_of_expiration << endl;

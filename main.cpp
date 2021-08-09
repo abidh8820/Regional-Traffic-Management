@@ -1,51 +1,59 @@
 #include <bits/stdc++.h>
-#include <string>
 #include "Person.h"
 
 using namespace std;
 
-static int globalid;
-
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
-
-    //    police  0
-    //    Admin   1
-    //    Passenger 2
-    //    Driver   3
-    //
+    
+mainmenu:
     cout << "1. Sign up." << endl;
     cout << "2. Login ." << endl;
 
-    int id;
-    cin >> id;
+    int id; cin >> id;
 
     if (id == 1) {  // sign up
         cout << "1.Passenger: " << endl;
         cout << "2.Driver: " << endl;
-        int x;
-        cin >> x;
+        int x;  cin >> x;
+
         if (x == 1) {  // passenger
-            Person passenger;
-            passenger.get_info();
-            string username = '2' + passenger.getusername();
-            string password = passenger.getpass();
-            string filename = username + ".txt";
-            
+            Passenger passenger;
+            passenger.set_info();
+            string filename = passenger.getusername();
+            passenger.write_info(filename);
         }
 
+        else { //Driver;
+            Driver driver;
+            driver.set_info(); // sets basic information
+            driver.write_to_file(driver.getusername());
+            driver.set_driver_info(); // sets additional driver's info
+            driver.driver_write_to_file();
+        }
     }
 
     else {  // Login
-        int x;
-        cin >> x;
+        cout << "Log In as:" << endl;
+        cout << "1.Passenger\n2.Driver\n3.Administrator\n4.Police" << endl;
+        int option;
+        cin >> option;
 
-        if (x == 1) {  // user
+        auto [possible, cur_user]  = login_possible();
+        if(!possible) goto mainmenu;
 
-        } else if (x == 2) {  // Police
-
-        } else {  // Admin
+        if(option==1) {
+            // passenger
+        }
+        else if(option == 2) {
+            // Driver
+        }
+        else if(option==3){
+          //  Administrator
+        }
+        else {
+            // police
         }
     }
 }
