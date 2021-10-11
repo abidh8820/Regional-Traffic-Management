@@ -1,5 +1,7 @@
 //class for truck
 #include<bits/stdc++.h>
+#include "vehicle.h"
+
 using namespace std;
 class Truck: public Vehicle
 {
