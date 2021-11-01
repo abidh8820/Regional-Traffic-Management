@@ -1,5 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
+
 template <typename atype>
 bool checkcarexit(atype username) {  // checks if file "username" is taken
     ifstream PersonFilePointer;
@@ -27,16 +28,87 @@ string get_profesion_type(string filename,int x){
     myfile.close();
 }
 
-//static int vehicleID=0;
+class seat{
+private:
+public:
+    string comfortability;
+    seat():comfortability(""){}
+    void setseat(){
+        cout<<"Enter seat comfortability:"<<endl;
+        getline(cin >> ws,comfortability);
+
+    }
+    void getseat(){
+        cout<<"the seat is "<<comfortability<<endl;
+    }
+    ~seat(){
+    }
+};
+
+class wheel{
+private:
+public:
+    int radius;
+    wheel():radius(0){
+    }
+    void setwheel(){
+        cout<<"Enter wheel radius:"<<endl;
+        cin>>radius;
+    }
+    void getwheel(){
+        cout<<"The circumference is "<<(double)(2*radius*3.1416)<<endl;
+    }
+    ~wheel(){
+    }
+};
+
+class engine{
+private:
+public:
+    int AverageRPM;
+    engine():AverageRPM(0){
+    }
+    void setengine(){
+        cout<<"Enter Average RPM is:"<<endl;
+        cin>>AverageRPM;
+    }
+    void getengine(){
+        cout<<"Average RPM is: "<<AverageRPM<<endl;
+    }
+    ~engine(){
+    }
+};
+class door{
+private:
+public:
+    string OpeningMode;
+    door():OpeningMode(""){
+    }
+    void setdoor(){
+        cout<<"Enter opening mode of car:"<<endl;
+        getline(cin >> ws,OpeningMode);
+    }
+    void getdoor(){
+        cout<<"Opening Mode of car is: "<<OpeningMode<<endl;
+    }
+    ~door(){
+    }
+
+};
+
 class Vehicle
 {
-private:
+protected:
     string VehicleType;
     string VehicleID;
     string VehicleRegistration;
     bool Fine;
     int FineAmount;
     string VehDriver;
+    seat st;
+    wheel wl;
+    engine egn;
+    door dr;
 public:
     Vehicle()
     {
@@ -68,13 +140,18 @@ public:
         cout.flush();
         getline(cin >> ws,VehicleRegistration);
 
+        st.setseat();
+        wl.setwheel();
+        egn.setengine();
+        dr.setdoor();
+
         while(1){
             cout<<"Enter Vehicle Driver Name: ";
             cout.flush();
             getline(cin >> ws,VehDriver);
             if (!checkuser(VehDriver)){
                 string prof;
-                prof=get_profesion_type(VehDriver+".txt",4);
+                prof=get_profesion_type(VehDriver+".txt",8);
                 if(prof=="driver"){
                     cout<<"found"<<endl;
                     string drvname=VehDriver+".txt";
@@ -94,6 +171,35 @@ public:
             }
         }
     }
+
+    virtual void vehicle_write_to_file(string filename){
+        cout << "Writing in file...." << endl;
+        cout <<"File name: "<< filename << endl;
+        fstream myfile;
+        myfile.open(filename, std::ios::out);
+        myfile <<"Type of Vehicle:"<<endl;
+        myfile << VehicleType <<endl;
+        myfile <<"Vehicle ID:"<<endl;
+        myfile << VehicleID <<endl;
+        myfile <<"Vehicle Registration:"<<endl;
+        myfile << VehicleRegistration <<endl;
+        myfile <<"Vehicle Driver Name:"<<endl;
+        myfile << VehDriver <<endl;
+        myfile <<"Seat comfortability"<<endl;
+        myfile << st.comfortability <<endl;
+        myfile <<"Wheel radius:"<<endl;
+        myfile << wl.radius <<endl;
+        myfile <<"Engine AverageRPM:"<<endl;
+        myfile << egn.AverageRPM <<endl;
+        myfile <<"Door Opening Mode:"<<endl;
+        myfile << dr.OpeningMode <<endl;
+        myfile <<"Is Vehicle ever Fined?"<<endl;
+        myfile << Fine <<endl;
+        myfile <<"Fine Amount"<<endl;
+        myfile << FineAmount <<endl;
+        myfile.close();
+    }
+
     virtual void addFine(string filename)
     {
         int newfine;
@@ -107,19 +213,24 @@ public:
         ifstream myfile;
         myfile.open(filename);
         while(getline(myfile,line)){
-            if(lineNO==1)VehicleType=line;
-            else if(lineNO==2)VehicleID=line;
-            else if(lineNO==3)VehicleRegistration=line;
-            else if(lineNO==4)VehDriver=line;
-            else if(lineNO==5){
+            if(lineNO==2)VehicleType=line;
+            else if(lineNO==4)VehicleID=line;
+            else if(lineNO==6)VehicleRegistration=line;
+            else if(lineNO==8)VehDriver=line;
+            else if(lineNO==10)st.comfortability=line;
+            else if(lineNO==12)wl.radius=stoi(line);
+            else if(lineNO==14)egn.AverageRPM=stoi(line);
+            else if(lineNO==16)dr.OpeningMode=line;
+            else if(lineNO==18){
                 line=="true"? Fine=true:false;
             }
-            else if(lineNO==6)FineAmount=stoi(line);
+            else if(lineNO==20)FineAmount=stoi(line);
+            cout<<line<<endl;
             lineNO++;
         }
         myfile.close();
         FineAmount+=newfine;
-        vehicle_write_to_file(filename);
+        //vehicle_write_to_file(filename);
     }
 
     virtual void payFine(string filename)
@@ -135,14 +246,18 @@ public:
         ifstream myfile;
         myfile.open(filename);
         while(getline(myfile,line)){
-            if(lineNO==1)VehicleType=line;
-            else if(lineNO==2)VehicleID=line;
-            else if(lineNO==3)VehicleRegistration=line;
-            else if(lineNO==4)VehDriver=line;
-            else if(lineNO==5){
+            if(lineNO==2)VehicleType=line;
+            else if(lineNO==4)VehicleID=line;
+            else if(lineNO==6)VehicleRegistration=line;
+            else if(lineNO==8)VehDriver=line;
+            else if(lineNO==10)st.comfortability=line;
+            else if(lineNO==12)wl.radius=stoi(line);
+            else if(lineNO==14)egn.AverageRPM=stoi(line);
+            else if(lineNO==16)dr.OpeningMode=line;
+            else if(lineNO==18){
                 line=="true"? Fine=true:false;
             }
-            else if(lineNO==6)FineAmount=stoi(line);
+            else if(lineNO==20)FineAmount=stoi(line);
             lineNO++;
         }
         myfile.close();
@@ -165,54 +280,29 @@ public:
         }
         cout<<"Vehicle Driver Name: "<<VehDriver<<endl;
     }
-    virtual void vehicle_write_to_file(string filename){
-        cout << "Writing in file...." << endl;
-        cout <<"File name: "<< filename << endl;
-        fstream myfile;
-        myfile.open(filename, std::ios::out);
-        myfile << VehicleType <<endl;
-        myfile << VehicleID <<endl;
-        myfile << VehicleRegistration <<endl;
-        myfile << VehDriver <<endl;
-        myfile << Fine <<endl;
-        myfile << FineAmount <<endl;
-        myfile.close();
-    }
-    /*Vehicle operator - (int fine_payed){
-        FineAmount-fine_payed;
-    }
-    Vehicle operator + (int fined){
-        FineAmount+fined;
-    }*/
     ~Vehicle(){}
 
 };
 
 class PrivateCar: public Vehicle
 {
-private:
+protected:
     string CarCompany;
-    //int CarID;
 public:
     PrivateCar(){
         CarCompany="";
-        //CarID=-1;
-        //CarDriver="";
     }
     void addEntry(){
         cout<<"Enter Car Company Name: ";
         cout.flush();
         getline(cin >> ws,CarCompany);
         Vehicle::addEntry();
-        //carID++;
-        //CarID=carID;
     }
     void vehicle_write_to_file(string filename){
-        /*cout << "Writing in file...." << endl;
-        cout <<"File name: "<< filename << endl;*/
         Vehicle::vehicle_write_to_file(filename);
         fstream myfile;
         myfile.open(filename,std::ios_base::app);
+        myfile<<"Car Company Name:"<<endl;
         myfile<<CarCompany<<endl;
         myfile.close();
     }
@@ -223,11 +313,15 @@ public:
         string line;
         ifstream myfile;
         myfile.open(filename);
+        cout<<"break"<<endl;
         while(getline(myfile,line)){
-            if(lineNO==7)CarCompany=line;
+            if(lineNO==22)CarCompany=line;
+            /*cout<<lineNO<<endl;
+            cout<<line<<endl;*/
             lineNO++;
         }
         myfile.close();
+        cout<<CarCompany<<endl;
         vehicle_write_to_file(filename);
     }
     void payFine(string filename)
@@ -238,7 +332,7 @@ public:
         ifstream myfile;
         myfile.open(filename);
         while(getline(myfile,line)){
-            if(lineNO==7)CarCompany=line;
+            if(lineNO==22)CarCompany=line;
             lineNO++;
         }
         myfile.close();
@@ -288,8 +382,11 @@ public:
         Vehicle::vehicle_write_to_file(filename);
         fstream myfile;
         myfile.open(filename,std::ios_base::app);
+        myfile<<"Truck Company Name:"<<endl;
         myfile<<TruckCompany<<endl;
+        myfile<<"Material Export:"<<endl;
         myfile<<MaterialExport<<endl;
+        myfile<<"Does vehicle has Permission to travel?:"<<endl;
         myfile<<Permission<<endl;
         myfile.close();
     }
@@ -301,9 +398,9 @@ public:
         ifstream myfile;
         myfile.open(filename);
         while(getline(myfile,line)){
-            if(lineNO==7)TruckCompany=line;
-            else if(lineNO==8)MaterialExport=line;
-            else if(lineNO==9)Permission=stoi(line);
+            if(lineNO==22)TruckCompany=line;
+            else if(lineNO==24)MaterialExport=line;
+            else if(lineNO==26)Permission=stoi(line);
             lineNO++;
         }
         myfile.close();
@@ -317,9 +414,9 @@ public:
         ifstream myfile;
         myfile.open(filename);
         while(getline(myfile,line)){
-            if(lineNO==7)TruckCompany=line;
-            else if(lineNO==8)MaterialExport=line;
-            else if(lineNO==9)Permission=stoi(line);
+            if(lineNO==22)TruckCompany=line;
+            else if(lineNO==24)MaterialExport=line;
+            else if(lineNO==26)Permission=stoi(line);
             lineNO++;
         }
         myfile.close();
@@ -361,6 +458,7 @@ public:
         Vehicle::vehicle_write_to_file(filename);
         fstream myfile;
         myfile.open(filename,std::ios_base::app);
+        myfile<<"Bus Company Name:"<<endl;
         myfile<<BusCompany<<endl;
         myfile.close();
     }
@@ -372,7 +470,7 @@ public:
         ifstream myfile;
         myfile.open(filename);
         while(getline(myfile,line)){
-            if(lineNO==7)BusCompany=line;
+            if(lineNO==22)BusCompany=line;
             lineNO++;
         }
         myfile.close();
@@ -386,7 +484,7 @@ public:
         ifstream myfile;
         myfile.open(filename);
         while(getline(myfile,line)){
-            if(lineNO==7)BusCompany=line;
+            if(lineNO==22)BusCompany=line;
             lineNO++;
         }
         myfile.close();
@@ -436,8 +534,11 @@ public:
         Vehicle::vehicle_write_to_file(filename);
         fstream myfile;
         myfile.open(filename,std::ios_base::app);
+        myfile<<"Hospital Name:"<<endl;
         myfile<<HospitalName<<endl;
+        myfile<<"Service Type:"<<endl;
         myfile<<ServiceType<<endl;
+        myfile<<"Route:"<<endl;
         myfile<<Route<<endl;
         myfile.close();
     }
@@ -450,9 +551,9 @@ public:
         ifstream myfile;
         myfile.open(filename);
         while(getline(myfile,line)){
-            if(lineNO==7)HospitalName=line;
-            else if(lineNO==8)ServiceType=line;
-            else if(lineNO==9)Route=line;
+            if(lineNO==22)HospitalName=line;
+            else if(lineNO==24)ServiceType=line;
+            else if(lineNO==26)Route=line;
             lineNO++;
         }
         myfile.close();
@@ -467,9 +568,9 @@ public:
         ifstream myfile;
         myfile.open(filename);
         while(getline(myfile,line)){
-            if(lineNO==7)HospitalName=line;
-            else if(lineNO==8)ServiceType=line;
-            else if(lineNO==9)Route=line;
+            if(lineNO==22)HospitalName=line;
+            else if(lineNO==24)ServiceType=line;
+            else if(lineNO==26)Route=line;
             lineNO++;
         }
         myfile.close();
@@ -486,6 +587,118 @@ public:
         cin>>Route;
     }
     ~Ambulance(){}
+};
+
+class FireService: public Vehicle
+{
+private:
+    bool checkStation;
+    string callStation;
+    bool accident;
+public:
+    FireService()
+    {
+        checkStation=false;
+        callStation="-1111";
+        accident=false;
+        checkAccident();
+
+    }
+    void addEntry(){
+        int opt;
+
+        cout<<"Enter Call Station: ";
+        cout.flush();
+        getline(cin >> ws,callStation);
+
+        cout<<"Did accident occur?1.true  2.false "<<endl;
+        cin>>opt;
+        if(opt==1)accident=true;
+        else accident=false;
+
+        checkAccident();
+
+        Vehicle::addEntry();
+    }
+    void vehicle_write_to_file(string filename){
+
+        Vehicle::vehicle_write_to_file(filename);
+        fstream myfile;
+        myfile.open(filename,std::ios_base::app);
+        myfile<<"Check Station:"<<endl;
+        myfile<<checkStation<<endl;
+        myfile<<"Call Station:"<<endl;
+        myfile<<callStation<<endl;
+        myfile<<"Accident:"<<endl;
+        myfile<<accident<<endl;
+        myfile.close();
+    }
+
+    void addFine(string filename)
+    {
+        Vehicle::addFine(filename);
+        int lineNO=1;
+        string line;
+        ifstream myfile;
+        myfile.open(filename);
+        while(getline(myfile,line)){
+            if(lineNO==22){
+                line=="true"? checkStation=true:false;
+            }
+            else if(lineNO==24)callStation=line;
+            else if(lineNO==26){
+                line=="true"? accident=true:false;
+            }
+            lineNO++;
+        }
+        myfile.close();
+        vehicle_write_to_file(filename);
+    }
+
+    void payFine(string filename)
+    {
+        Vehicle::payFine(filename);
+        int lineNO=1;
+        string line;
+        ifstream myfile;
+        myfile.open(filename);
+        while(getline(myfile,line)){
+            if(lineNO==22){
+                line=="true"? checkStation=true:false;
+            }
+            else if(lineNO==24)callStation=line;
+            else if(lineNO==26){
+                line=="true"? accident=true:false;
+            }
+            lineNO++;
+        }
+        myfile.close();
+        vehicle_write_to_file(filename);
+    }
+    string StationNo()
+
+    {
+        return callStation;
+    }
+    void checkAccident()
+    {
+        if(accident)
+        {
+            checkStation=true;
+            notifyStation();
+        }
+    }
+    void notifyStation()
+    {
+        accident=true;
+        cout<<"The Message has already been sent to the Fire Station"<<endl;
+        cout<<"Call for Service :"<<callStation<<endl;
+    }
+    ~FireService()
+    {
+
+    }
+
 };
 
 

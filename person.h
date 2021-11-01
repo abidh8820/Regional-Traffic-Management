@@ -1,10 +1,9 @@
 #include "bits/stdc++.h"
-#include <fstream>
 using namespace std;
 
 static int l_id;
-
-bool checkuser(string username) {  // checks if file "username" is taken
+template<class user>
+bool checkuser(user username) {  // checks if file "username" is taken
     ifstream PersonFilePointer;
     username+=".txt";
     PersonFilePointer.open(username);
@@ -14,13 +13,14 @@ bool checkuser(string username) {  // checks if file "username" is taken
     }
     else return true;
 }
-
-bool checkpass(string password,string username) {
+template<class pass, class users>
+bool checkpass(pass password,users username) {
     string line;
     ifstream PersonFilePointer;
     username+=".txt";
     PersonFilePointer.open(username);
 
+    getline(PersonFilePointer,line);
     getline(PersonFilePointer,line);
     if (line == password) {
         return true;
@@ -36,8 +36,8 @@ void viewFile(string filename){
     myfile.open(filename);
     if(myfile){
         while(getline(myfile,line)){
-            if(lineNO==2)cout<<"User details of "<<line<<endl;
-            else if(d==1 && lineNO>9){
+            if(lineNO==2)cout<<"User details:"<<endl;
+            else if(d==1 && lineNO>18 && line!=""){
                 cout<<endl;
                 cout<<"Details of vehicle id "<<line<<":"<<endl;
                 string l;
@@ -49,7 +49,7 @@ void viewFile(string filename){
                 mfile.close();
             }
             else if(lineNO>2)cout<<line<<endl;
-            if(lineNO==4 && line=="driver")d=1;
+            if(lineNO==8 && line=="driver")d=1;
             lineNO++;
         }
         cout<<endl;
@@ -66,7 +66,7 @@ string get_proffesion(string filename){
     ifstream myfile;
     myfile.open(filename);
     while(getline(myfile,line)){
-        if(lineNO==4){
+        if(lineNO==8){
             return line;
             break;
         }
@@ -106,7 +106,7 @@ class Person {
             cout << "Enter username: " << endl;
             string s;
             cin >> s;
-            if (checkuser(s))return s;
+            if (checkuser<string>(s))return s;
             else cout <<"Username already taken.Enter another username"<< endl;
         }
     }
@@ -139,13 +139,13 @@ class Person {
         ifstream myfile;
         myfile.open(username);
         while(getline(myfile,line)){
-            if(lineNO==1)password=line;
-            else if(lineNO==2)user_id=line;
-            else if(lineNO==3)name=line;
-            else if(lineNO==4)profession=line;
-            else if(lineNO==5)email=line;
-            else if(lineNO==6)phone=line;
-            else if(lineNO==7)adress=line;
+            if(lineNO==2)password=line;
+            else if(lineNO==4)user_id=line;
+            else if(lineNO==6)name=line;
+            else if(lineNO==8)profession=line;
+            else if(lineNO==10)email=line;
+            else if(lineNO==12)phone=line;
+            else if(lineNO==14)adress=line;
             lineNO++;
         }
         myfile.close();
@@ -181,12 +181,19 @@ class Person {
         cout <<"File name: "<< filename << endl;
         fstream myfile;
         myfile.open(filename, std::ios::out);
+        myfile <<"password:\n";
         myfile << password + "\n";
+        myfile <<"User ID:\n";
         myfile << user_id + "\n";
+        myfile <<"Name:\n";
         myfile << name + "\n";
+        myfile <<"Profession:\n";
         myfile << profession + "\n";
+        myfile <<"email:\n";
         myfile << email + "\n";
+        myfile <<"Phone No:\n";
         myfile << phone + "\n";
+        myfile <<"Adress:\n";
         myfile << adress + "\n";
         myfile.close();
     }
@@ -213,9 +220,18 @@ class Driver : public Person {
     //int lincense_id;
     string date_of_registraion;
     string date_of_expiration;
-    //string vehic[5];
+    string vehic[5];
 
    public:
+    Driver(){
+        date_of_registraion="";
+        date_of_expiration="";
+        vehic[0]="";
+        vehic[1]="";
+        vehic[2]="";
+        vehic[3]="";
+        vehic[4]="";
+    }
     void set_info(){
         Person::set_info();
         cout<<"Enter date of Registration: ";
@@ -224,20 +240,22 @@ class Driver : public Person {
         cout<<"Enter date of Expiration: ";
         cout.flush();
         cin >> date_of_expiration;
-        //l_id++;
-        //lincense_id=l_id;;
-
     }
 
     void write_to_file(string filename) {   //writes  only dates to file
-        //cout<<"blacksheep"<<endl;
-        //Person::write_to_file();
+
         Person::write_to_file(filename);
         fstream myfile;
         myfile.open(filename,std::ios_base::app);
-        //myfile<<lincense_id<<endl;
+        myfile<<"Date of Registraion:"<<endl;
         myfile<<date_of_registraion<<endl;
+        myfile<<"Date of Expiration:"<<endl;
         myfile<<date_of_expiration<<endl;
+        myfile<<vehic[0]<<endl;
+        myfile<<vehic[1]<<endl;
+        myfile<<vehic[2]<<endl;
+        myfile<<vehic[3]<<endl;
+        myfile<<vehic[4]<<endl;
         myfile.close();
     }
     void update_info(string username){
@@ -248,8 +266,9 @@ class Driver : public Person {
         ifstream myfile;
         myfile.open(username);
         while(getline(myfile,line)){
-            if(lineNO==8)date_of_registraion=line;
-            else if(lineNO==9)date_of_expiration=line;
+            if(lineNO==16)date_of_registraion=line;
+            else if(lineNO==18)date_of_expiration=line;
+            else if(lineNO>=19)vehic[lineNO-19]=line;
             lineNO++;
         }
         myfile.close();
@@ -303,7 +322,9 @@ class Police : public Person {
         Person::write_to_file(filename);
         fstream myfile;
         myfile.open(filename,std::ios_base::app);
+        myfile<<"post: "<<endl;
         myfile<<post<<endl;
+        myfile<<"placement:"<<endl;
         myfile<<placement<<endl;
         myfile.close();
     }
@@ -316,8 +337,8 @@ class Police : public Person {
         ifstream myfile;
         myfile.open(username);
         while(getline(myfile,line)){
-            if(lineNO==8)post=line;
-            else if(lineNO==9)placement=line;
+            if(lineNO==16)post=line;
+            else if(lineNO==18)placement=line;
             lineNO++;
         }
         myfile.close();

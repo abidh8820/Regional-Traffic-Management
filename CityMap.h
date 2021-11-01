@@ -1,6 +1,9 @@
 #include<bits/stdc++.h>
+#include "Vehicle.h"
 using namespace std;
-class Map
+
+void RoadStatus(int noofCar);
+class CityMap
 {
 private:
     string HospitalAdress;
@@ -13,8 +16,9 @@ private:
     int noofCar;
     int carlimit;
 public:
+    vector<Vehicle>vivi;
 
-    Map()
+    CityMap()
     {
         HospitalAdress="House-50, Road-9, Sector-5, Uttara, Dhaka-1230";
         PoliceStationAdress="House-23 , Road-15 , Sector-3, Uttara, Dhaka-1230";
@@ -24,13 +28,15 @@ public:
         CentralMosque="House- 29, Road -10, Sector -5, Uttara, Dhaka-1230";
         noofCar=0;
     }
-    ///vector<vehicle>v1;
-    void AddVehicleInfo()
+   
+    void AddVehicleInfo(Vehicle &vivia)
     {
         noofCar++;
+        vivi.push_back(vivia);
         ///add vehicle objects
 
     }
+    
     void TrafficCondition()
     {
         if(noofCar<20)
@@ -47,6 +53,9 @@ public:
             cout<<"Heavy Traffic than usual"<<endl;
         }
     }
+    friend void RoadStatus(int noofCar);
+    
+    
     void PrintMap()
     {
     ifstream filepointer;
@@ -64,11 +73,15 @@ public:
    filepointer.close();
    }
     string returnOption()
-    {
+{
         int option;
-        cout<<"--Enter Option to get Adress for the following:\n1. Hospital Adress\n2.Police Station Adress\n3.Rab Station Adress\n4.Stadium Adress\n";
+        cout<<"--Enter Option:\n1. Hospital Adress\n2.Police Station Adress\n3.Rab Station Adress\n4.Stadium Adress\n";
         cout<<"5.Shopping Mall Adress\n6.Central Mosque Adress"<<endl;
         cin>>option;
+        
+        try
+    {
+        
         if(option==1)
         {
             return HospitalAdress;
@@ -90,19 +103,83 @@ public:
             return ShoppingMall;
 
         }
+        
+    
         else if(option==6)
         {
             return CentralMosque;
         }
         else
             {
-                return "Invalid!";
+               throw(option);
             }
     }
+    
+    catch(int option)
+    {
+        cout<<"Invalid Option! "<<endl;
+    }
+}
     void printAdress()
     {
         string adress=returnOption();
         cout<<"The following Adress:\n"<<adress<<endl;
     }
+
 };
 
+void RoadStatus(int noofCar)
+{
+        if(noofCar<20)
+        {
+            cout<<"Low Traffic"<<endl;
+        }
+        else if(noofCar>20 && noofCar<50)
+        {
+            cout<<"Medium Traffic"<<endl;
+
+        }
+        else
+        {
+            cout<<"Heavy Traffic than usual"<<endl;
+        }
+}
+class Route: public CityMap
+{
+private:
+    string destination;
+    string source;
+public:
+    Route()
+    {
+        destination=" ";
+        source=" ";
+    }
+    void TakeSource()
+    {
+        cout<<"Enter your source adress: ";
+        source=returnOption();
+    }
+    void TakeDestination()
+    {
+        cout<<"Enter your destination :";
+        destination=returnOption();
+    }
+    void PrintRoute()
+    {
+    ifstream filepointer;
+   string line;
+   filepointer.open("Route.txt");
+
+   getline(filepointer,line);
+   while ( !filepointer.eof() )
+    {
+
+      cout << line;
+      cout<<endl;
+     getline(filepointer,line);
+   }
+   filepointer.close();
+   }
+   ~Route(){}
+};
