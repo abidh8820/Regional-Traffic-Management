@@ -14,9 +14,9 @@ int main ()
 
     intro ();
     cout << endl;
-    ///gettime();
-
+    gettime();
     cout << endl;
+
     cout <<
          "----------------------------------------------------------------------------"
          << endl;
@@ -174,35 +174,35 @@ int main ()
 
             if (option == 1)
             {
-                if (role.viewPersonal ())
+                if (role.viewPersonal())
                     viewFile (username + ".txt");
             }
             else if (option == 2)
             {
-                role.viewOthers ();
+                role.viewOthers();
             }
             else if (option == 3)
             {
-                role.updateInfo ();
+                role.updateInfo();
             }
             else if (option == 4)
             {
-                role.deleteInfo ();
+                role.deleteInfo();
             }
             else if (option == 5)
             {
-                citymap.PrintMap ();
+                citymap.PrintMap();
             }
             else if (option == 6)
             {
                 Route route;
-                route.TakeSource ();
-                route.TakeDestination ();
-                route.PrintRoute ();
+                route.TakeSource();
+                route.TakeDestination();
+                route.PrintRoute();
             }
             else if (option == 7)
             {
-                citymap.TrafficCondition ();
+                citymap.TrafficCondition();
             }
             else if (option == 8)
             {
@@ -226,11 +226,11 @@ int main ()
             cin >> driving;
             if (driving == 1)
             {
-                Vehicle d;
+                /*Vehicle d;
                 cout<<"Add Vehicle Information: "<<endl;
-                d.addEntry();
+                d.addEntry();*/
 
-                citymap.AddVehicleInfo (d);
+                citymap.AddVehicleInfo ();
 
             }
 
@@ -259,37 +259,37 @@ int main ()
 
             if (option == 1)
             {
-                if (role.viewPersonal ())
+                if (role.viewPersonal())
                     viewFile (username + ".txt");
             }
             else if (option == 2)
             {
-                role.viewOthers ();
+                role.viewOthers();
             }
             else if (option == 3)
             {
-                role.updateInfo ();
+                role.updateInfo();
             }
             else if (option == 4)
             {
-                role.deleteInfo ();
+                role.deleteInfo();
             }
             else if (option == 5)
             {
-                citymap.PrintMap ();
+                citymap.PrintMap();
             }
             else if (option == 6)
             {
                 Route route;
-                route.TakeSource ();
-                route.TakeDestination ();
-                route.PrintRoute ();
+                route.TakeSource();
+                route.TakeDestination();
+                route.PrintRoute();
 
             }
 
             else if (option == 7)
             {
-                citymap.TrafficCondition ();
+                citymap.TrafficCondition();
             }
             else if (option == 8)
             {
@@ -309,8 +309,6 @@ int main ()
                     vehic = new Bus;
                 else if (vehtype == "truck")
                     vehic = new Truck;
-                else if (vehtype == "ambulance")
-                    vehic = new Ambulance;
                 vehic->payFine (s + ".txt");
             }
             else if (option == 9)
@@ -340,12 +338,12 @@ int main ()
 
             if (option == 1)
             {
-                if (role.viewPersonal ())
+                if (role.viewPersonal())
                     viewFile (username + ".txt");
             }
             else if (option == 2)
             {
-                if (role.viewPersonal ())
+                if (role.viewPersonal())
                 {
                     string s;
                     cout << "Enter username you want to find: ";
@@ -356,27 +354,27 @@ int main ()
             }
             else if (option == 3)
             {
-                role.updateInfo ();
+                role.updateInfo();
             }
             else if (option == 4)
             {
-                role.deleteInfo ();
+                role.deleteInfo();
             }
             else if (option == 5)
             {
-                citymap.PrintMap ();
+                citymap.PrintMap();
             }
             else if (option == 6)
             {
                 Route route;
-                route.TakeSource ();
-                route.TakeDestination ();
-                route.PrintRoute ();
+                route.TakeSource();
+                route.TakeDestination();
+                route.PrintRoute();
 
             }
             else if (option == 7)
             {
-                citymap.TrafficCondition ();
+                citymap.TrafficCondition();
             }
             else if (option == 8)
             {
@@ -396,8 +394,6 @@ int main ()
                     vehic = new Bus;
                 else if (vehtype == "truck")
                     vehic = new Truck;
-                else if (vehtype == "ambulance")
-                    vehic = new Ambulance;
                 vehic->addFine (s + ".txt");
             }
             else if (option == 9)
@@ -518,7 +514,7 @@ int main ()
 
     else if (option == 3)
     {
-        cout << "1.Car\n2.Bus\n3.Truck\n4.Ambulance\n5.Fire Service" << endl;
+        cout << "1.Car\n2.Bus\n3.Truck" << endl;
         int option;
         cin >> option;
         Vehicle *vehicle;
@@ -547,21 +543,7 @@ int main ()
             vehicle->vehicle_write_to_file (vehicle->getVehicleID ());
             goto restart;
         }
-        else if (option == 4)
-        {
-            vehicle = new Ambulance;
-            vehicle->addEntry ();
-            vehicle->vehicle_write_to_file (vehicle->getVehicleID ());
-            goto restart;
-        }
-        else
-        {
-            vehicle = new FireService;
-            vehicle->addEntry ();
-            vehicle->vehicle_write_to_file (vehicle->getVehicleID ());
-            goto restart;
-        }
-
+        goto restart;
     }
     else if(option==4)
     {
@@ -573,16 +555,20 @@ int main ()
         {
             if(choice==1)
             {
+                string acci;
                 FireService fire;
-                fire.notifyStation();
-                cout<<"Fire Station Number: "<<fire.StationNo()<<endl;
+                acci="true";
+                fire.checkAccident(acci);
+                acci="false";
+                fire.checkAccident(acci);
+                //cout<<"Fire Station Number: "<<fire.StationNo()<<endl;
                 goto restart;
             }
             else if(choice==2)
             {
-                Ambulance ambulance;
-                cout<<"The list of available ambulance and information: "<<endl;
-                ambulance.displayInfo();
+                Ambulance amb;
+                cout<<"The list of available ambulance and information: "<<endl<<endl;
+                amb.ambu_list();
                 goto restart;
             }
             else
@@ -625,10 +611,10 @@ void intro ()
     }
 }
 
-/*void gettime()
+void gettime()
 {
 time_t now = time(0);
 char* dt = ctime(&now);
 
    cout<< dt << endl;
-}*/
+}

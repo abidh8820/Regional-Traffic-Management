@@ -232,6 +232,7 @@ class Driver : public Person {
         vehic[3]="";
         vehic[4]="";
     }
+
     void set_info(){
         Person::set_info();
         cout<<"Enter date of Registration: ";
@@ -251,11 +252,11 @@ class Driver : public Person {
         myfile<<date_of_registraion<<endl;
         myfile<<"Date of Expiration:"<<endl;
         myfile<<date_of_expiration<<endl;
-        myfile<<vehic[0]<<endl;
-        myfile<<vehic[1]<<endl;
-        myfile<<vehic[2]<<endl;
-        myfile<<vehic[3]<<endl;
-        myfile<<vehic[4]<<endl;
+        if(vehic[0]!="")myfile<<vehic[0]<<endl;
+        if(vehic[1]!="")myfile<<vehic[1]<<endl;
+        if(vehic[2]!="")myfile<<vehic[2]<<endl;
+        if(vehic[3]!="")myfile<<vehic[3]<<endl;
+        if(vehic[4]!="")myfile<<vehic[4]<<endl;
         myfile.close();
     }
     void update_info(string username){

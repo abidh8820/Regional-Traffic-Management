@@ -1,0 +1,14 @@
+password:
+adm
+User ID:
+admin
+Name:
+tafsir
+Profession:
+admin
+email:
+gajda
+Phone No:
+798725979
+Adress:
+dhaka

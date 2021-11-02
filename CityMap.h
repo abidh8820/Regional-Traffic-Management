@@ -16,7 +16,7 @@ private:
     int noofCar;
     int carlimit;
 public:
-    vector<Vehicle>vivi;
+    //vector<Vehicle>vivi;
 
     CityMap()
     {
@@ -28,15 +28,14 @@ public:
         CentralMosque="House- 29, Road -10, Sector -5, Uttara, Dhaka-1230";
         noofCar=0;
     }
-   
-    void AddVehicleInfo(Vehicle &vivia)
+
+    void AddVehicleInfo(/*Vehicle &vivia*/)
     {
         noofCar++;
-        vivi.push_back(vivia);
+        //vivi.push_back(vivia);
         ///add vehicle objects
-
     }
-    
+
     void TrafficCondition()
     {
         if(noofCar<20)
@@ -46,7 +45,6 @@ public:
         else if(noofCar>20 && noofCar<50)
         {
             cout<<"Medium Traffic"<<endl;
-
         }
         else
         {
@@ -54,72 +52,72 @@ public:
         }
     }
     friend void RoadStatus(int noofCar);
-    
-    
+
+
     void PrintMap()
     {
-    ifstream filepointer;
-   string line;
-   filepointer.open("map.txt");
+        ifstream filepointer;
+        string line;
+        filepointer.open("map.txt");
 
-   getline(filepointer,line);
-   while ( !filepointer.eof() )
-    {
+        getline(filepointer,line);
+        while ( !filepointer.eof() )
+        {
 
-      cout << line;
-      cout<<endl;
-     getline(filepointer,line);
-   }
-   filepointer.close();
-   }
+            cout << line;
+            cout<<endl;
+            getline(filepointer,line);
+        }
+        filepointer.close();
+    }
     string returnOption()
-{
+    {
+        findpath:
         int option;
         cout<<"--Enter Option:\n1. Hospital Adress\n2.Police Station Adress\n3.Rab Station Adress\n4.Stadium Adress\n";
         cout<<"5.Shopping Mall Adress\n6.Central Mosque Adress"<<endl;
         cin>>option;
-        
-        try
-    {
-        
-        if(option==1)
-        {
-            return HospitalAdress;
-        }
-        else if(option==2)
-        {
-            return PoliceStationAdress;
-        }
-        else if(option==3)
-        {
-            return RabStationAdress;
-        }
-        else if(option==4)
-        {
-            return StadiumAdress;
-        }
-        else if(option==5)
-        {
-            return ShoppingMall;
 
-        }
-        
-    
-        else if(option==6)
+        try
         {
-            return CentralMosque;
-        }
-        else
+
+            if(option==1)
             {
-               throw(option);
+                return HospitalAdress;
             }
+            else if(option==2)
+            {
+                return PoliceStationAdress;
+            }
+            else if(option==3)
+            {
+                return RabStationAdress;
+            }
+            else if(option==4)
+            {
+                return StadiumAdress;
+            }
+            else if(option==5)
+            {
+                return ShoppingMall;
+
+            }
+            else if(option==6)
+            {
+                return CentralMosque;
+            }
+            else
+            {
+                throw(option);
+            }
+        }
+
+        catch(int option)
+        {
+            cout<<option<<" is a Invalid Option! "<<endl;
+            goto findpath;
+        }
     }
-    
-    catch(int option)
-    {
-        cout<<"Invalid Option! "<<endl;
-    }
-}
     void printAdress()
     {
         string adress=returnOption();
@@ -130,19 +128,18 @@ public:
 
 void RoadStatus(int noofCar)
 {
-        if(noofCar<20)
-        {
-            cout<<"Low Traffic"<<endl;
-        }
-        else if(noofCar>20 && noofCar<50)
-        {
-            cout<<"Medium Traffic"<<endl;
-
-        }
-        else
-        {
-            cout<<"Heavy Traffic than usual"<<endl;
-        }
+    if(noofCar<20)
+    {
+        cout<<"Low Traffic"<<endl;
+    }
+    else if(noofCar>20 && noofCar<50)
+    {
+        cout<<"Medium Traffic"<<endl;
+    }
+    else
+    {
+        cout<<"Heavy Traffic than usual"<<endl;
+    }
 }
 class Route: public CityMap
 {
@@ -167,19 +164,19 @@ public:
     }
     void PrintRoute()
     {
-    ifstream filepointer;
-   string line;
-   filepointer.open("Route.txt");
+        ifstream filepointer;
+        string line;
+        filepointer.open("Route.txt");
 
-   getline(filepointer,line);
-   while ( !filepointer.eof() )
-    {
+        getline(filepointer,line);
+        while ( !filepointer.eof() )
+        {
 
-      cout << line;
-      cout<<endl;
-     getline(filepointer,line);
-   }
-   filepointer.close();
-   }
-   ~Route(){}
+            cout << line;
+            cout<<endl;
+            getline(filepointer,line);
+        }
+        filepointer.close();
+    }
+    ~Route() {}
 };
