@@ -38,28 +38,3 @@
 ### Find Route:
 ![route](https://user-images.githubusercontent.com/83116065/139807544-102facc3-07c4-4d65-aa51-42e3783ebeb9.JPG)
 
-UML Digram
-
-
-![OOP (1)](https://user-images.githubusercontent.com/76552780/139925916-92bca7ff-5039-4db3-939b-b14eee712aa2.png)
-
-
-
-### Steps to Add your files in git:
-1. git add .
-2. git commit -m "message"
-3. git push
-
-
-### Steps to copy the repo in local drive:
-1. git clone https://github.com/abidh8820/Regional-Traffic-Management.git
-
-
-### Steps to repush files in git:
-1. git pull
-2. git add .
-3. git commit -m "message"
-4. git push
-
-
-//ALWAYS PULL BEFORE ADD,PUSH
